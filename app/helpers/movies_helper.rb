@@ -9,8 +9,8 @@ module MoviesHelper
 	end
 
 	def year_of(movie)
-		if movie.release_on
-			movie.release_on.year
+		if movie.released_on
+			movie.released_on.year
 		else
 			"No Date"
 		end

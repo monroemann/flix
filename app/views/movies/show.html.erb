@@ -1,0 +1,24 @@
+
+  <section class="movie">
+     <div class="summary">
+      <h2>
+        <%= @movie.title %>
+      </h2><br>
+      <h3>
+        Gross: <%= total_gross(@movie) %>
+      </h3>
+      <p>
+        Description: <%= @movie.description %>
+      </p>
+      <p>
+        Released in: <%= year_of(@movie) %>
+      </p>
+      <p>
+        Rating: <%= @movie.rating %>
+      </p>
+    </div>
+  </section>
+
+  <section class="admin">
+    <%= link_to 'Edit', edit_movie_path(@movie), class: "button" %>
+  </section>
