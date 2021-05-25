@@ -22,5 +22,7 @@ class Movie < ApplicationRecord
 	def self.released
 		Movie.all.where("released_on < ?", Time.now).order(released_on: :desc)
 	end
+
+	#####################ERASE##########################
 	
 end
