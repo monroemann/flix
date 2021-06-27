@@ -27,8 +27,8 @@
       </p>
       <p>
         <%= link_to "Write Review", new_movie_review_path(@movie), class: "review" %>
-        <%= link_to pluralize(@movie.reviews.size, "review"),
-            movie_reviews_path(@movie) %>
+        <%= average_stars(@movie)%> 
+        <%= link_to pluralize(@movie.reviews.size, "review"), movie_reviews_path(@movie) %>
       </p>
     </div>
   </section>
