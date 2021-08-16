@@ -3,16 +3,23 @@
     <%= image_tag("logo") %>
 
       <ul>
-        <li>
-          <%= link_to "Sign In", new_session_path, class: "button" %>
-        </li>
-        <li style="list-style-type: none;">
-          <%= link_to "All Movies", movies_path %>
-        </li>
-        <li style="list-style-type: none;">
-          <%= link_to "New Movie", new_movie_path %>
-        </li>
-        <%= link_to "Sign Up", signup_path, class: "button" %>
+        <% if current_user %>
+          <li>
+            <%= link_to current_user.name %>
+          </li>
+          <li style="list-style-type: none;">
+            <%= link_to "All Movies", movies_path %>
+          </li>
+          <li style="list-style-type: none;">
+            <%= link_to "New Movie", new_movie_path %>
+          </li>
+          <%= link_to "Sign Out", root_path, class: "button" %>
+        <% else %>
+          <li>
+            <%= link_to "Sign In", new_session_path, class: "button" %>
+          </li>
+          <%= link_to "Sign Up", signup_path, class: "button" %>
+        <% end %>
       </ul>
   </nav>
 </header>
