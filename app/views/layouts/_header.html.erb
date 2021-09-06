@@ -5,7 +5,7 @@
       <ul>
         <% if current_user %>
           <li>
-            <%= link_to current_user.name %>
+            <%= link_to current_user.name, user_path(current_user.id) %>
           </li>
           <li style="list-style-type: none;">
             <%= link_to "All Movies", movies_path %>
@@ -13,7 +13,7 @@
           <li style="list-style-type: none;">
             <%= link_to "New Movie", new_movie_path %>
           </li>
-          <%= link_to "Sign Out", root_path, class: "button" %>
+          <%= link_to "Sign Out", session_path, method: :delete, class: "button" %>
         <% else %>
           <li>
             <%= link_to "Sign In", new_session_path, class: "button" %>
