@@ -5,11 +5,6 @@
 <%= form_with(model: [@movie, @review], local: true) do |f| %>
 
   <h3>
-    <%= f.label :name, autofocus: true %>
-    <%= f.text_field :name %>
-  </h3>
-
-  <h3>
     <%= f.label :stars, "Stars" %>
     <%= f.select :stars, Review::STARS, prompt: "Pick One" %>
   </h3>
