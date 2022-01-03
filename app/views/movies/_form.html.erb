@@ -36,6 +36,10 @@
     <%= f.label :rating %>
     <%= f.select :rating, Movie::RATINGS, prompt: "Pick one" %>
   </p>
+  <p>
+    <%= f.label :genre %>
+    <%= f.collection_check_boxes(:genre_ids, Genre.all, :id, :name) %>
+  </p>
 
   <%= f.submit %>
 <% end %>

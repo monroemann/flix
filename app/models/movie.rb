@@ -1,8 +1,15 @@
 class Movie < ApplicationRecord
 
+	before_save :set_slug
+
 	has_many :reviews, dependent: :destroy
 	has_many :favorites, dependent: :destroy
 	has_many :fans, through: :favorites, source: :user
+	
+	# These two are related
+	has_many :characterizations, dependent: :destroy
+	has_many :genres, through: :characterizations
+
 
 	validates :title, :released_on, :duration, presence: true
 	validates :description, length: { minimum: 25 }
@@ -11,6 +18,7 @@ class Movie < ApplicationRecord
 		with: /\w+\.(jpg|png)\z/i,
 		message: "must be a JPG or PNG image"
 	}
+	validates :title, presence: true, uniqueness: true
 
   RATINGS = %w(G PG PG-13 R NC-17)
   validates :rating, inclusion: { in: RATINGS }
@@ -19,14 +27,23 @@ class Movie < ApplicationRecord
 		total_gross < 225000000
 	end
 
-	def self.released
-		Movie.all.where("released_on < ?", Time.now).order(released_on: :desc)
-	end
+	scope :released, -> { where("released_on < ?", Time.now).order(released_on: :desc) }
+	scope :upcoming, -> { where("released_on > ?", Time.now).order(released_on: :asc) }
+	scope :recent, ->(max=5) { released.limit(max) }
+	# or scope :recent, lambda { |max=5| released.limit(max) }
 
 	def average_stars
 		reviews.average(:stars) || 0.0
 	end 
 
-	
+	def to_param
+		slug
+	end
+
+	private
+
+	def set_slug
+		self.slug = title.parameterize
+	end
 	
 end

@@ -9,3 +9,6 @@ module FavoritesHelper
 	end
 
 end
+
+# Helpers use raw ruby code.  No Ruby html
+# Helpers are methods that you call from the show page to avoid logic overload within the view

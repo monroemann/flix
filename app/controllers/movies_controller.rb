@@ -2,25 +2,34 @@ class MoviesController < ApplicationController
 
 	before_action :require_sign_in, except: [:index, :show]
 	before_action :require_admin, except: [:index, :show]
+	before_action :set_movie, only: [:show, :edit, :update, :destroy]
 
 	def index
-		@movies = Movie.released
+		case params[:filter]
+		when "upcoming"
+			@movies = Movie.upcoming
+		when "recent"
+			@movies = Movie.recent
+		else
+			@movies = Movie.released
+		end
+		# This type of use of scopes and a case statement can be used to show filtered posts
+		# by tags and by members you are following on Break Diving
 	end
 
+
 	def show
-		@movie = Movie.find(params[:id])
 		@fans = @movie.fans
+		@genres = @movie.genres
 		if current_user
     	@favorite = current_user.favorites.find_by(movie_id: @movie.id)
   	end
 	end
 
 	def edit
-		@movie = Movie.find(params[:id])
 	end
 
 	def update
-		@movie = Movie.find(params[:id])
 		if @movie.update(movie_params)
 			redirect_to @movie, notice: "Movie updated successfully."
 		else 
@@ -42,7 +51,6 @@ class MoviesController < ApplicationController
 	end
 
 	def destroy
-		@movie = Movie.find(params[:id])
 		@movie.destroy
 		redirect_to root_path, alert: "Movie successfully deleted."
 	end
@@ -51,7 +59,12 @@ class MoviesController < ApplicationController
 
 	def movie_params
 		params.require(:movie).permit(:title, :description, :rating, :released_on, 
-																					:total_gross, :director, :duration, :image_file_name)
+																					:total_gross, :director, :duration, :image_file_name,
+																					genre_ids: [])
 	end	
+
+	def set_movie
+		@movie = Movie.find_by!(slug: params[:id])
+	end
 
 end
