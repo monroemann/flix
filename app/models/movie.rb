@@ -11,7 +11,7 @@ class Movie < ApplicationRecord
 	has_many :genres, through: :characterizations
 
 
-	validates :title, :released_on, presence: true, uniqueness: true
+	validates :title, :released_on, presence: true
 	validates :description, length: { minimum: 25 }
 	validates :total_gross, numericality: { greater_than_or_equal_to: 0 }
 	validates :image_file_name, format: {
